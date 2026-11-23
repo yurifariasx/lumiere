@@ -1,6 +1,7 @@
 package com.example.lumiere.data
 
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TmdbApi {
@@ -16,4 +17,11 @@ interface TmdbApi {
         @Query("language") language: String = "pt-BR",
         @Query("page") page: Int = 1
     ): MovieResponse
+
+    @GET("movie/{id}")
+    suspend fun getMovieDetails(
+        @Path("id") id: Int,
+        @Query("language") language: String = "pt-BR",
+        @Query("append_to_response") append: String = "credits"
+    ): MovieDetails
 }

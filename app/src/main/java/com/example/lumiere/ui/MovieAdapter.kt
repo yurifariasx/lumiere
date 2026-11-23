@@ -9,8 +9,8 @@ import com.bumptech.glide.Glide
 import com.example.lumiere.data.Movie
 import com.example.lumiere.databinding.ItemMovieBinding
 
-class MovieAdapter : ListAdapter<Movie, MovieAdapter.VH>(Diff) {
-
+class MovieAdapter(private val onClick: (Movie) -> Unit) :
+    ListAdapter<Movie, MovieAdapter.VH>(Diff) {
     class VH(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -18,6 +18,7 @@ class MovieAdapter : ListAdapter<Movie, MovieAdapter.VH>(Diff) {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val movie = getItem(position)
+        holder.itemView.setOnClickListener { onClick(movie) }
         holder.binding.tvTitle.text = movie.title
         holder.binding.tvRating.text = "★ %.1f".format(movie.voteAverage)
         Glide.with(holder.itemView)
