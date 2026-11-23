@@ -1,7 +1,12 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
-
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
 android {
     namespace = "com.example.lumiere"
     compileSdk {
@@ -9,6 +14,7 @@ android {
     }
 
     defaultConfig {
+        buildConfigField("String", "TMDB_API_KEY", "\"${localProps.getProperty("TMDB_API_KEY", "")}\"")
         applicationId = "com.example.lumiere"
         minSdk = 27
         targetSdk = 37
@@ -20,6 +26,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {
@@ -38,6 +45,10 @@ android {
 
 dependencies {
 
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("androidx.navigation:navigation-fragment:2.10.1")
     implementation("androidx.navigation:navigation-ui:2.10.1")
     implementation(libs.androidx.activity.ktx)
