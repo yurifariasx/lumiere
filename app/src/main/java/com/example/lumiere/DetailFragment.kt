@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.lumiere.data.MovieEntry
 import com.example.lumiere.databinding.FragmentDetailBinding
 import com.example.lumiere.ui.DetailState
 import com.example.lumiere.ui.DetailViewModel
@@ -30,13 +31,20 @@ class DetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btnWatched.setOnClickListener { viewModel.toggleWatched() }
+        binding.btnWant.setOnClickListener { viewModel.toggleWantToWatch() }
+        binding.btnFav.setOnClickListener { viewModel.toggleFavorite() }
+        binding.ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
+            if (fromUser) viewModel.setRating(rating)
+        }
         binding.btnRetry.setOnClickListener { viewModel.load() }
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect { render(it) }
+                launch { viewModel.state.collect { render(it) } }
+                launch { viewModel.entry.collect { renderEntry(it) } }
             }
         }
     }
@@ -74,6 +82,12 @@ class DetailFragment : Fragment() {
                 .load("https://image.tmdb.org/t/p/w500${m.posterPath}")
                 .into(binding.ivPoster)
         }
+    }
+    private fun renderEntry(entry: MovieEntry?) {
+        binding.btnWatched.isChecked = entry?.watched == true
+        binding.btnWant.isChecked = entry?.wantToWatch == true
+        binding.btnFav.isChecked = entry?.favorite == true
+        binding.ratingBar.rating = entry?.rating ?: 0f
     }
 
     override fun onDestroyView() {

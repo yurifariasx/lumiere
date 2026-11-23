@@ -1,6 +1,7 @@
 import java.util.Properties
 
 plugins {
+    id("com.google.devtools.ksp")
     alias(libs.plugins.android.application)
 }
 val localProps = Properties().apply {
@@ -45,6 +46,9 @@ android {
 
 dependencies {
 
+    implementation("androidx.room:room-runtime:2.8.5")
+    implementation("androidx.room:room-ktx:2.8.5")
+    ksp("androidx.room:room-compiler:2.8.5")
     implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
