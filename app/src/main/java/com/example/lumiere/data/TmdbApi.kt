@@ -9,4 +9,11 @@ interface TmdbApi {
         @Query("language") language: String = "pt-BR",
         @Query("page") page: Int = 1
     ): MovieResponse
+
+    @GET("search/movie")
+    suspend fun searchMovies(
+        @Query("query") query: String,
+        @Query("language") language: String = "pt-BR",
+        @Query("page") page: Int = 1
+    ): MovieResponse
 }
