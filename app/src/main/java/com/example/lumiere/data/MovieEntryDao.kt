@@ -28,4 +28,18 @@ interface MovieEntryDao {
 
     @Query("SELECT * FROM movie_entries WHERE favorite = 1 ORDER BY updatedAt DESC")
     fun observeFavorites(): Flow<List<MovieEntry>>
+
+
+
+    @Query("SELECT COUNT(*) FROM movie_entries WHERE watched = 1")
+    fun observeWatchedCount(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM movie_entries WHERE wantToWatch = 1")
+    fun observeWantToWatchCount(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM movie_entries WHERE favorite = 1")
+    fun observeFavoriteCount(): Flow<Int>
+
+    @Query("SELECT AVG(rating) FROM movie_entries WHERE rating > 0")
+    fun observeAverageRating(): Flow<Double?>
 }
