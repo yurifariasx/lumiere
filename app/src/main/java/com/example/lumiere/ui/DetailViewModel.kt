@@ -47,19 +47,24 @@ class DetailViewModel(
         }
     }
 
-    fun toggleWatched() = update { it.copy(watched = !it.watched, wantToWatch = false) }
+    fun toggleWatched() = update {
+        if (it.watched) it.copy(watched = false, favorite = false, rating = 0f)
+        else it.copy(watched = true, wantToWatch = false)
+    }
 
-    fun toggleWantToWatch() =
-        update { it.copy(wantToWatch = !it.wantToWatch, watched = false, rating = 0f) }
+    fun toggleWantToWatch() = update {
+        if (it.wantToWatch) it.copy(wantToWatch = false)
+        else it.copy(wantToWatch = true, watched = false, favorite = false, rating = 0f)
+    }
 
-    fun toggleFavorite() = update { it.copy(favorite = !it.favorite) }
+    fun toggleFavorite() = update {
+        if (it.favorite) it.copy(favorite = false)
+        else it.copy(favorite = true, watched = true, wantToWatch = false)
+    }
 
     fun setRating(rating: Float) = update {
-        it.copy(
-            rating = rating,
-            watched = it.watched || rating > 0f,
-            wantToWatch = if (rating > 0f) false else it.wantToWatch
-        )
+        if (rating > 0f) it.copy(rating = rating, watched = true, wantToWatch = false)
+        else it.copy(rating = 0f)
     }
 
     private fun update(change: (MovieEntry) -> MovieEntry) {
