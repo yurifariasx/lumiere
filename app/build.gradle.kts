@@ -1,6 +1,7 @@
 import java.util.Properties
 
 plugins {
+    id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
     alias(libs.plugins.android.application)
 }
@@ -46,6 +47,8 @@ android {
 
 dependencies {
 
+    implementation(platform("com.google.firebase:firebase-bom:34.17.0"))
+    implementation("com.google.firebase:firebase-auth")
     implementation("androidx.room:room-runtime:2.8.5")
     implementation("androidx.room:room-ktx:2.8.5")
     ksp("androidx.room:room-compiler:2.8.5")
