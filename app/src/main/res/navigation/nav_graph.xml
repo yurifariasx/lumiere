@@ -31,4 +31,14 @@
         android:name="com.example.lumiere.DetailFragment"
         android:label="Detalhes"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.lumiere.LoginFragment"
+        android:label="Entrar"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.lumiere.RegisterFragment"
+        android:label="Criar conta"
+        tools:layout="@layout/fragment_register" />
 </navigation>

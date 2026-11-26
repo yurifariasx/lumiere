@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.lumiere.databinding.FragmentProfileBinding
 import com.example.lumiere.ui.ProfileViewModel
 import kotlinx.coroutines.launch
@@ -24,9 +25,16 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.loginFragment)
+        }
+        binding.btnRegister.setOnClickListener {
+            findNavController().navigate(R.id.registerFragment)
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.stats.collect { stats ->
