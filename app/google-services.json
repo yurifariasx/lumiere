@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1056247279124",
+    "project_id": "lumiere-b4532",
+    "storage_bucket": "lumiere-b4532.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056247279124:android:dc08406b05df8e09380101",
+        "android_client_info": {
+          "package_name": "com.example.lumiere"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAi70Waz5FCJN_oOEeUFEpWG4RaolEHepU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
