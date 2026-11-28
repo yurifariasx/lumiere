@@ -18,6 +18,13 @@ sealed interface AuthState {
     data class Error(val message: String) : AuthState
 }
 
+sealed interface ResetState {
+    data object Idle : ResetState
+    data object Loading : ResetState
+    data object Sent : ResetState
+    data class Error(val message: String) : ResetState
+}
+
 class AuthViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
@@ -55,6 +62,34 @@ class AuthViewModel : ViewModel() {
         _state.value = AuthState.Idle
     }
 
+    private val _resetState = MutableStateFlow<ResetState>(ResetState.Idle)
+    val resetState: StateFlow<ResetState> = _resetState
+
+    fun consumeResetState() {
+        _resetState.value = ResetState.Idle
+    }
+
+    fun sendPasswordReset(email: String) {
+        val error = when {
+            email.isBlank() -> "Informe o e-mail."
+            !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "E-mail inválido."
+            else -> null
+        }
+        if (error != null) {
+            _resetState.value = ResetState.Error(error)
+            return
+        }
+        _resetState.value = ResetState.Loading
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            _resetState.value = if (task.isSuccessful) ResetState.Sent
+            else ResetState.Error(
+                if (task.exception is FirebaseNetworkException)
+                    "Sem conexão. Verifique sua internet."
+                else "Não foi possível enviar o e-mail. Tente novamente."
+            )
+        }
+    }
+
     private fun validate(email: String, password: String): String? = when {
         email.isBlank() -> "Informe o e-mail."
         !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> "E-mail inválido."
@@ -71,4 +106,7 @@ class AuthViewModel : ViewModel() {
         is FirebaseNetworkException -> "Sem conexão. Verifique sua internet."
         else -> "Não foi possível concluir. Tente novamente."
     }
+
+
+
 }
