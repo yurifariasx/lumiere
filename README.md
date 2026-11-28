@@ -8,6 +8,7 @@ App Android para registrar e avaliar os filmes que você já assistiu.
 - Marcar como "Já vi", "Quero ver" e "Favorito", com nota em estrelas
 - Perfil com estatísticas
 - Cadastro e login com e-mail e senha (Firebase Authentication), com sessão persistente e logout.
+- Recuperação de senha por e-mail
 
 ## Tecnologias
 Kotlin · XML · ViewBinding · MVVM · Navigation Component · Retrofit · Room · Coroutines/Flow · Glide · Firebase Authentication

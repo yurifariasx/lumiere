@@ -11,10 +11,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.example.lumiere.databinding.DialogResetPasswordBinding
 import com.example.lumiere.databinding.FragmentLoginBinding
 import com.example.lumiere.ui.AuthState
 import com.example.lumiere.ui.AuthViewModel
+import com.example.lumiere.ui.ResetState
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
+
 
 class LoginFragment : Fragment() {
 
@@ -30,6 +34,7 @@ class LoginFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.btnForgot.setOnClickListener { showResetDialog() }
         binding.btnLogin.setOnClickListener {
             viewModel.login(
                 binding.etEmail.text.toString().trim(),
@@ -42,8 +47,35 @@ class LoginFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect { render(it) }
+                launch { viewModel.state.collect { render(it) } }
+                launch { viewModel.resetState.collect { renderReset(it) } }
             }
+        }
+    }
+
+    private fun showResetDialog() {
+        val dialogBinding = DialogResetPasswordBinding.inflate(layoutInflater)
+        dialogBinding.etResetEmail.setText(binding.etEmail.text)
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Redefinir senha")
+            .setView(dialogBinding.root)
+            .setNegativeButton("Cancelar", null)
+            .setPositiveButton("Enviar link") { _, _ ->
+                viewModel.sendPasswordReset(dialogBinding.etResetEmail.text.toString().trim())
+            }
+            .show()
+    }
+
+    private fun renderReset(state: ResetState) {
+        val message = when (state) {
+            is ResetState.Sent ->
+                "Se o e-mail estiver cadastrado, você receberá um link para redefinir a senha."
+            is ResetState.Error -> state.message
+            else -> null
+        }
+        if (message != null) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+            viewModel.consumeResetState()
         }
     }
 
