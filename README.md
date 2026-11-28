@@ -7,7 +7,7 @@ App Android para registrar e avaliar os filmes que você já assistiu.
 - Detalhes do filme com sinopse e elenco
 - Marcar como "Já vi", "Quero ver" e "Favorito", com nota em estrelas
 - Perfil com estatísticas
-- Cadastro e login com e-mail e senha (Firebase Authentication)
+- Cadastro e login com e-mail e senha (Firebase Authentication), com sessão persistente e logout.
 
 ## Tecnologias
 Kotlin · XML · ViewBinding · MVVM · Navigation Component · Retrofit · Room · Coroutines/Flow · Glide · Firebase Authentication
@@ -17,6 +17,9 @@ Kotlin · XML · ViewBinding · MVVM · Navigation Component · Retrofit · Room
 2. Crie um projeto no [Firebase](https://console.firebase.google.com), registre um app Android com o mesmo `applicationId` do projeto e ative o login por e-mail e senha (Authentication)
 3. Baixe o `google-services.json` e coloque na pasta `app/`
 4. Rode o app pelo Android Studio
+
+## Limitações atuais
+- Os filmes marcados ficam salvos apenas no aparelho e ainda não estão associados à conta (sincronização na nuvem prevista).
 
 ## Créditos
 This product uses the TMDB API but is not endorsed or certified by TMDB.
