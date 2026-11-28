@@ -16,6 +16,7 @@
             android:textSize="24sp"
             android:textStyle="bold" />
         <LinearLayout
+            android:id="@+id/groupLoggedOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -36,6 +37,34 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Criar conta" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/groupLoggedIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Conectado como" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnLogout"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Sair" />
         </LinearLayout>
 
         <LinearLayout
