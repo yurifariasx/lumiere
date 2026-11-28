@@ -56,6 +56,14 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnForgot"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="Esqueci minha senha" />
+
         <TextView
             android:id="@+id/tvError"
             android:layout_width="match_parent"
@@ -81,7 +89,6 @@
 
         <Button
             android:id="@+id/btnGoRegister"
-            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
